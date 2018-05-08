@@ -18,19 +18,32 @@ document.addEventListener('deviceready', function(){
 
 
   //U-bahnen
-  var hs;
+  var hs=[];
   $.ajax({
     url:'http://wifi.1av.at/527/ubahnen.php',
     method:'POST',
     success:function(response){
       //var response = JSON.parse(responseDaten);
+      var hs = [];
       for(let i in response.U1.haltestellen ){
-        console.log(response.U1.haltestellen.name);
+        hs.push({lat:response.U1.haltestellen[i].lat, lng:response.U1.haltestellen[i].lng});
+
       }
       console.log( response );
       console.log( response.U1 );
       console.log( response.U1.haltestellen );
 
+
+
+        var metroPath = new google.maps.Polyline({
+          path: hs,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+
+        metroPath.setMap(karte);
 
 
     /*  for (i=0; i>response.length;i++){
